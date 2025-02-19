@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --light: #ffffff;
+  --dark: #171717;
+  --color-main: rgba(222, 28, 110);
+  --color-lighter-main: rgb(255, 33, 125);
+  --color-text-grey: #595858;
+  --gradient-main: linear-gradient(
+    180deg,
+    rgba(119, 8, 119, 1) 0%,
+    rgba(186, 18, 89, 1) 80%
+  );
+}
+
+.border-color {
+  border-image: var(--gradient-main) 1;
+  box-shadow: 0 4px 30px rgba(167, 6, 167, 0.3),
+    0 8px 40px rgba(222, 28, 110, 0.3);
+}
+
+body {
+  color: var(--light);
+  background: var(--dark);
+  font-family: Arial, Helvetica, sans-serif;
+}

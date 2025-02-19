@@ -1,0 +1,11 @@
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: "export",
+  basePath: "/hng12_aiTextProcessor",
+  assetPrefix: "/hng12_aiTextProcessor/",
+  images: {
+    unoptimized: true,
+  },
+};
+
+export default nextConfig;
