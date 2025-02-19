@@ -7,8 +7,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "deploy": "gh-pages -d out --no-history"
+    "lint": "next lint"
   },
   "dependencies": {
     "axios": "^1.7.9",
@@ -21,7 +20,6 @@
     "@eslint/eslintrc": "^3",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
-    "gh-pages": "^6.3.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1"
   }
