@@ -5,10 +5,11 @@
   "homepage": "https://github.com/ad-sharon/hng12_aiTextProcessor",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build && next export",
+    "build": "next build",
     "start": "next start",
+    "export": "next build && next export",
     "lint": "next lint",
-    "deploy": "pnpm build && gh-pages -d out"
+    "deploy": "pnpm export && gh-pages -d out"
   },
   "dependencies": {
     "axios": "^1.7.9",
