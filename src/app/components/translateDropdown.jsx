@@ -10,7 +10,7 @@ const targetLanguages = [
 ];
 
 export default function Translate({ inputText, detectedLanguage }) {
-  const [language, setLanguage] = useState("es"); // Default to Spanish
+  const [language, setLanguage] = useState("es"); // set spanish as default
   const [translator, setTranslator] = useState(null);
   const [translatedText, setTranslatedText] = useState("");
 
@@ -99,8 +99,11 @@ export default function Translate({ inputText, detectedLanguage }) {
         <select
           onChange={handleLanguageSelection}
           className="text-[0.8rem] bg-[var(--dark)] cursor-pointer border-2 border-[var(--color-main)] p-1 rounded-lg bg-transparent"
-          defaultValue={language}
+          defaultValue="Translate Text"
         >
+          <option className="text-black" hidden value="Translate Text">
+            Pick a language to translate text
+          </option>
           {targetLanguages.map((lang) => (
             <option className="text-black" key={lang.code} value={lang.code}>
               {lang.name}
@@ -110,9 +113,9 @@ export default function Translate({ inputText, detectedLanguage }) {
 
         <button
           onClick={handleTranslation}
-          className="text-[0.8rem] cursor-pointer text-center border-2 border-[var(--color-main)] bg-[var(--color-main)] p-1 rounded-lg hover:bg-[var(--color-lighter-main)]"
+          className="text-[0.8rem] whitespace-nowrap cursor-pointer text-center border-2 border-[var(--color-main)] bg-[var(--color-main)] p-1 rounded-lg hover:bg-[var(--color-lighter-main)]"
         >
-          Translate text to {language}
+          Translate text ({language})
         </button>
       </section>
 

@@ -16,9 +16,10 @@ export default function RootLayout({ children }) {
           <section className="">
             <Image
               src={logo}
+              as="image"
               alt="logo"
               priority
-              className="w-fit h-10"
+              className="w-fit h-10 cursor-pointer"
             ></Image>
             <h4 className="text-[0.6rem]">
               Summarize | Translate | Detect Languages.
