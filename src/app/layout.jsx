@@ -33,7 +33,7 @@ export default function RootLayout({ children }) {
         className={`${inter.className} h-screen max-h-screen flex flex-col`}
       >
         {/* navbar */}
-        <nav className="flex items-center justify-between mt-3 mb-4 rounded-xl px-2 mx-auto w-full max-w-[90%]">
+        <nav className="flex flex-col sm:flex-row items-center justify-between mt-3 mb-4 rounded-xl px-2 mx-auto w-full max-w-[90%]">
           <Image
             src={logo}
             as="image"
@@ -41,7 +41,7 @@ export default function RootLayout({ children }) {
             priority={true}
             className="w-fit h-10 cursor-pointer"
           ></Image>
-          <h4 className="text-[0.6rem]">
+          <h4 className="text-[0.6rem] w-fit ">
             Summarize | Translate | Detect Languages.
           </h4>
 
