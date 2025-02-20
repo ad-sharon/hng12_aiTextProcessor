@@ -17,15 +17,19 @@ export default function ChatBox({
         <ClearChat messages={messages} clearMessages={clearMessages} />
       </section>
       {messages.map((message, index) => (
-        <section key={index} className="mb-5">
-          <section className="text-[0.9rem] rounded-xl border border-[var(--color-main)] mb-1 w-full max-w-fit flex flex-col gap-2 p-1">
+        <section key={index} className="mb-3">
+          <section className="text-[0.8rem] rounded-xl border border-[var(--color-main)] mb-1 w-full max-w-fit flex flex-col gap-2 p-2">
             {message.text}
 
-            <Summarize
-              inputText={message.text}
-              detectedLanguage={detectedLanguage}
-            />
+            {message.text.trim().length > 150 &&
+              message.language === "Language Detected: English" && 
+                <Summarize
+                  inputText={message.text}
+                  detectedLanguage={detectedLanguage}
+                />
+              }
           </section>
+
           {message.language && (
             <p className="text-[0.6rem] font-semibold text-[var(--color-text-grey)]">
               {message.language} {message.confidence}
@@ -33,7 +37,7 @@ export default function ChatBox({
           )}
         </section>
       ))}
-      <section className="flex gap-3 ">
+      <section className="flex gap-2 ">
         <Translate
           inputText={inputText}
           detectedLanguage={detectedLanguage}

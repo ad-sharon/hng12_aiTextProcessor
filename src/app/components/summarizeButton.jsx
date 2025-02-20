@@ -5,25 +5,8 @@ import { toast } from "react-hot-toast";
 export default function Summarize({ inputText, detectedLanguage }) {
   const [summarizer, setSummarizer] = useState(null);
   const [summaryText, setSummaryText] = useState("");
-  const [characterCount, setCharacterCount] = useState(0);
-  const [showButton, setShowButton] = useState(false);
-
-  // function for to count characters
-  useEffect(() => {
-    if (
-      !inputText ||
-      inputText.trim().length === 0 ||
-      detectedLanguage !== "en"
-    ) {
-      setCharacterCount(0);
-      setShowButton(false);
-      return;
-    }
-
-    const count = inputText.trim().length;
-    setCharacterCount(count);
-    setShowButton(count >= 150);
-  }, [inputText, detectedLanguage]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showSummary, setShowSummary] = useState(false);
 
   //to handle summarize
   const handleSummarize = async () => {
@@ -31,6 +14,8 @@ export default function Summarize({ inputText, detectedLanguage }) {
       toast.error("No text to summarize.");
       return;
     }
+
+    setIsLoading(true);
 
     try {
       const options = {
@@ -44,7 +29,9 @@ export default function Summarize({ inputText, detectedLanguage }) {
       const canSummarize = summarizeCapabilities.available;
 
       if (canSummarize === "no") {
-        toast.error(
+        setIsLoading(false)
+        setShowSummary(false)
+          toast.error(
           "Sorry. You don't have the sufficient requirements needed to summarize text!"
         );
         return;
@@ -66,30 +53,56 @@ export default function Summarize({ inputText, detectedLanguage }) {
 
       toast.success("Summarizer initialized.");
       setSummarizer(summarizer);
-      const longText =
-        "With non-streaming summarization, the model processes the input as a whole and then produces the output. To get a non-streaming summary, call the summarizer's asynchronous summarize() function. The first argument for the function is the text that you want to summarize. The second, optional argument is an object with a context field. This field lets you add background details that might improve the summarization.";
-      const result = await summarizer.summarize(longText, {
+      const result = await summarizer.summarize(inputText, {
         context: "Just make it short.",
       });
+      setShowSummary(true);
       console.log(result);
       setSummaryText(result);
+      setIsLoading(false);
     } catch (error) {
       console.error("Error summarizing text:", error);
+      toast.error("An error occurred while summariing.");
     }
   };
 
   return (
     <>
-      {showButton && (
-        <button
-          onClick={handleSummarize}
-          className={`text-[0.8rem] w-full max-w-fit text-center border-2 border-[var(--color-main)] bg-[var(--color-main)] p-1 rounded-lg hover:bg-[var(--color-lighter-main)]`}
-        >
-          Summarize
-          <p className="text-[10px] font-bold text-[var(--dark)]">{`Current Character Count: ${characterCount}`}</p>
-        </button>
+      <button
+        onClick={handleSummarize}
+        className="text-[0.7rem] w-full max-w-fit text-center border button-bg p-1 rounded-lg hover:border-[var(--color-main)]"
+      >
+        Summarize
+        <p className="text-[0.6rem] font-bold text-[var(--dark)]">
+          {`Current Character Count: ${inputText.trim().length}`}
+        </p>
+      </button>
+
+      {isLoading && (
+        <p className="text-[0.6rem] text-[var(--color-text-grey)]">
+          Summarizing...
+        </p>
       )}
-      <p>{summaryText}</p>
+      
+      {showSummary && summaryText !== "" ? (
+        <section className="w-full min-w-full">
+          <p className="text-[10px] font-bold">Summary</p>
+          <section className="text-[0.7rem] border border-[var(--color-main)] p-2 flex flex-col gap-1 rounded-lg">
+            <button onClick={() => setSummaryText("")} className="text-[0.5rem] font-bold ms-auto hover:underline hover:text-[var(--light)] text-[var(--color-text-grey)]">
+              Close
+            </button>
+            {summaryText}
+            <p className="text-[9px] ms-auto font-bold text-center text-[var(--light)]">
+              Summary Character Count = {`${summaryText.trim().length}`}
+            </p>
+          </section>
+        </section>
+      ) : (
+        <p className="text-red-500 text-[0.5rem]">
+          Sorry your summary is not available.
+        </p>
+      )}
+      
     </>
   );
 }

@@ -1,5 +1,5 @@
 "use client";
-
+import { toast } from "react-hot-toast";
 export default function ClearChat({ messages, clearMessages }) {
   const handleClear = () => {
     if (messages.length === 0) {

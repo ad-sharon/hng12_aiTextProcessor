@@ -14,21 +14,38 @@ export default function InputBox({
   const [isAvailable, setIsAvailable] = useState(null);
   const [detector, setDetector] = useState(null);
 
-  //check if chrome ai detector is available/supported on client
+  //check if chrome ai is available/supported on client
   useEffect(() => {
     const checkSupport = async () => {
-      if ("ai" in self && "languageDetector" in self.ai) {
-        toast.success("Hurray! Chrome AI support was detected.", {
-          duration: 2000,
-        });
-        await initializeDetector();
-        setIsAvailable(true);
-      } else {
-        setIsAvailable(false);
-        toast.error(
-          "Browser does not support Chrome AI APIs. Some features may not work."
-        ),
-          { duration: 2000 };
+      if ("ai" in self) {
+        let isSupported = [];
+
+        if ("languageDetector" in self.ai) {
+          isSupported.push("Language Detection");
+          await initializeDetector();
+        }
+        if ("translator" in self.ai) {
+          isSupported.push("Translation");
+        }
+        if ("summarizer" in self.ai) {
+          isSupported.push("Summarization");
+        }
+        if (isSupported.length > 0) {
+          toast.success(
+            `Your browser supports the following features: ${isSupported.join(
+              ", "
+            )}!`,
+            {
+              duration: 2000,
+            }
+          );
+          setIsAvailable(true);
+        } else {
+          toast.error(
+            "Browser does not support Chrome AI APIs. Some features may not work. Try updating your Chrome to the latest version.",
+            { duration: 2000 }
+          );
+        }
       }
     };
     checkSupport();
