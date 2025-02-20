@@ -10,25 +10,28 @@ export default function ChatBox({
   detectedLanguage,
 }) {
   return (
-    <section className="w-full h-full min-h-[25rem] my-auto p-2 my-2 border border-4 border-color">
-      <section className="flex items-end">
+    <section className="w-full h-auto my-auto p-2 my-2 border border-4 border-color">
+      <section className="flex items-end m-1">
         <ClearChat messages={messages} clearMessages={clearMessages} />
       </section>
       {messages.map((message, index) => (
-        <div key={index} className="mb-3">
-          <p className="text-[0.9rem] mb-1 border w-fit p-2 rounded-xl border-[var(--color-main)] shadow-inner ">
+        <section key={index} className="mb-5">
+          <section className="text-[0.9rem] rounded-xl border border-[var(--color-main)] mb-1 w-full max-w-fit flex flex-col gap-2 p-1">
             {message.text}
-          </p>
+
+            <Summarize
+              inputText={message.text}
+              detectedLanguage={detectedLanguage}
+            />
+          </section>
           {message.language && (
             <p className="text-[0.6rem] font-semibold text-[var(--color-text-grey)]">
-              Language Detected : {message.language} ({message.confidence}%
-              sure)
+              {message.language} {message.confidence}
             </p>
           )}
-        </div>
+        </section>
       ))}
-      <section className="flex mt-2 gap-3 items-center">
-        <Summarize inputText={inputText} detectedLanguage={detectedLanguage} />
+      <section className="flex gap-3 ">
         <Translate inputText={inputText} detectedLanguage={detectedLanguage} />
       </section>
     </section>

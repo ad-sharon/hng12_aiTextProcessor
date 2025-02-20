@@ -13,7 +13,7 @@ export default function Home() {
   };
 
   return (
-    <section className="w-full max-w-[95%] mx-auto p-2">
+    <section className="w-full max-w-[95%] mx-auto p-2 ">
       {/* chat */}
       <ChatBox
         messages={messages}

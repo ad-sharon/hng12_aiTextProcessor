@@ -1,6 +1,7 @@
 import Image from "next/image";
 import logo from "../../public/logo.png";
 import "./styles/globals.css";
+import { Toaster } from "react-hot-toast";
 
 export const metadata = {
   title: "AI Text Processor",
@@ -18,7 +19,7 @@ export default function RootLayout({ children }) {
               src={logo}
               as="image"
               alt="logo"
-              priority
+              priority={true}
               className="w-fit h-10 cursor-pointer"
             ></Image>
             <h4 className="text-[0.6rem]">
@@ -32,6 +33,7 @@ export default function RootLayout({ children }) {
             About Project
           </a>
         </nav>
+        <Toaster position="top-center" />
         {children}
       </body>
     </html>
