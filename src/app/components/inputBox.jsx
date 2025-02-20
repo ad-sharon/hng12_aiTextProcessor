@@ -40,13 +40,13 @@ export default function InputBox({
             }
           );
           setIsAvailable(true);
-        } else {
+        } 
+      }      else {
           toast.error(
             "Browser does not support Chrome AI APIs. Some features may not work. Try updating your Chrome to the latest version.",
-            { duration: 2000 }
+            { duration: 3000 }
           );
         }
-      }
     };
     checkSupport();
   }, []);
