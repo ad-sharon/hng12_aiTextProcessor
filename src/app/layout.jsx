@@ -8,7 +8,7 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "AI Text Processor",
+  title: "TextBender - Your Trusted AI Text Processor",
   description: "Text Summarizer, Language Detector, and Translator all in one",
 };
 
