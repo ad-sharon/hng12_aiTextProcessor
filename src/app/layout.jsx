@@ -11,7 +11,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={"h-screen flex flex-col"}>
+      <body className={"h-screen max-h-[screen] flex flex-col "}>
         {/* navbar */}
         <nav className="flex items-center justify-between mt-3 mb-4 rounded-xl px-2 mx-auto w-full max-w-[90%]">
           <section className="">
@@ -29,12 +29,15 @@ export default function RootLayout({ children }) {
           <a
             className="text-[0.7rem] hover:border-b hover:border-[var(--color-main)] hover:shadow-xl transition-all ease-in-out duration-300"
             href=""
+            aria-label="about project link"
           >
             About Project
           </a>
         </nav>
         <Toaster position="top-center" />
-        {children}
+        <main className="flex-grow flex flex-col w-full max-w-[95%] mx-auto overflow-hidden">
+          {children}
+        </main>
       </body>
     </html>
   );

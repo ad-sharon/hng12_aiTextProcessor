@@ -5,23 +5,23 @@ import { toast } from "react-hot-toast";
 export default function Summarize({ inputText, detectedLanguage }) {
   const [summarizer, setSummarizer] = useState(null);
   const [summaryText, setSummaryText] = useState("");
-  const [wordCount, setWordCount] = useState(0);
+  const [characterCount, setCharacterCount] = useState(0);
   const [showButton, setShowButton] = useState(false);
 
-  // function for word count
+  // function for to count characters
   useEffect(() => {
     if (
       !inputText ||
       inputText.trim().length === 0 ||
       detectedLanguage !== "en"
     ) {
-      setWordCount(0);
+      setCharacterCount(0);
       setShowButton(false);
       return;
     }
 
-    const count = inputText.trim().split(/\s+/).length;
-    setWordCount(count);
+    const count = inputText.trim().length;
+    setCharacterCount(count);
     setShowButton(count >= 150);
   }, [inputText, detectedLanguage]);
 
@@ -45,7 +45,7 @@ export default function Summarize({ inputText, detectedLanguage }) {
 
       if (canSummarize === "no") {
         toast.error(
-          "Sorry. You don't have sufficient space to download the summarizer model!"
+          "Sorry. You don't have the sufficient requirements needed to summarize text!"
         );
         return;
       }
@@ -83,10 +83,10 @@ export default function Summarize({ inputText, detectedLanguage }) {
       {showButton && (
         <button
           onClick={handleSummarize}
-          className={`text-[0.8rem] text-center border-2 border-[var(--color-main)] bg-[var(--color-main)] p-1 rounded-lg hover:bg-[var(--color-lighter-main)]`}
+          className={`text-[0.8rem] w-full max-w-fit text-center border-2 border-[var(--color-main)] bg-[var(--color-main)] p-1 rounded-lg hover:bg-[var(--color-lighter-main)]`}
         >
-          Click to Summarize Text
-          <p className="text-[10px] font-bold text-[var(--dark)]">{`Current Word Count: ${wordCount}`}</p>
+          Summarize
+          <p className="text-[10px] font-bold text-[var(--dark)]">{`Current Character Count: ${characterCount}`}</p>
         </button>
       )}
       <p>{summaryText}</p>

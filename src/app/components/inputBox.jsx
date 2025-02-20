@@ -4,35 +4,22 @@ import Image from "next/image";
 import send from "../../../public/send.svg";
 import { toast } from "react-hot-toast";
 
-export default function InputBox({ setMessages, setDetectedLanguage }) {
+export default function InputBox({
+  messages,
+  setMessages,
+  setDetectedLanguage,
+  setTranslatedText,
+}) {
   const [inputText, setInputText] = useState("");
   const [isAvailable, setIsAvailable] = useState(null);
   const [detector, setDetector] = useState(null);
 
-  // built-in JS function to change language code to full name
-  const getFullLanguageName = (languageCode) => {
-    try {
-      return (
-        new Intl.DisplayNames(["en"], { type: "language" }).of(languageCode) ||
-        languageCode
-      );
-    } catch (error) {
-      console.error("Error converting language code to full:", error);
-      return languageCode;
-    }
-  };
-
-  //check if chrome ai api is available/supported on browser
+  //check if chrome ai detector is available/supported on client
   useEffect(() => {
     const checkSupport = async () => {
-      if (
-        "ai" in self &&
-        "translator" in self.ai &&
-        "languageDetector" in self.ai &&
-        "summarizer" in self.ai
-      ) {
+      if ("ai" in self && "languageDetector" in self.ai) {
         toast.success("Hurray! Chrome AI support was detected.", {
-          duration: 3000,
+          duration: 2000,
         });
         await initializeDetector();
         setIsAvailable(true);
@@ -46,6 +33,24 @@ export default function InputBox({ setMessages, setDetectedLanguage }) {
     };
     checkSupport();
   }, []);
+
+  //handle user input text changes
+  const handleInputChange = (e) => {
+    setInputText(e.target.value);
+  };
+
+  // built-in JS function to change language code to full language name
+  const getFullLanguageName = (languageCode) => {
+    try {
+      return (
+        new Intl.DisplayNames(["en"], { type: "language" }).of(languageCode) ||
+        languageCode
+      );
+    } catch (error) {
+      console.error("Error converting language code to full:", error);
+      return languageCode;
+    }
+  };
 
   // initialize AI language detector if chrome AI is available/supported
   const initializeDetector = async () => {
@@ -71,7 +76,7 @@ export default function InputBox({ setMessages, setDetectedLanguage }) {
         if (canDetect !== "readily") await newDetector.ready;
         setDetector(newDetector);
       } else {
-        toast.error("Language detection is not supported.");
+        toast.error("Sorry. Language detection is not supported.");
         setIsAvailable(false);
       }
     } catch (error) {
@@ -81,14 +86,9 @@ export default function InputBox({ setMessages, setDetectedLanguage }) {
     }
   };
 
-  //handle user input text change
-  const handleInputChange = (e) => {
-    setInputText(e.target.value);
-  };
-
-  //handle language detection of user input in form
-  const detectLanguage = async (e) => {
-    e.preventDefault();
+  //handle language detection of user input
+  const detectLanguage = async () => {
+    //runs if there's no input
     if (!inputText.trim()) {
       toast.error("No text inputted. Please enter some text.", {
         duration: 2000,
@@ -103,26 +103,28 @@ export default function InputBox({ setMessages, setDetectedLanguage }) {
         const detectedLanguage = result[0].detectedLanguage;
         const detectedLanguageFull = getFullLanguageName(detectedLanguage);
         setDetectedLanguage(detectedLanguage);
+        setTranslatedText("");
 
-        setMessages((prev) => [
-          ...prev,
-          {
-            text: inputText,
-            language: `Language Detected: ${detectedLanguageFull}`,
-            confidence: `(${parseInt(result[0].confidence * 100)}% sure)`,
-          },
-        ]);
+        const newInput = {
+          text: inputText,
+          language: `Language Detected: ${detectedLanguageFull}`,
+          confidence: `(${parseInt(result[0].confidence * 100)}% sure)`,
+        };
+        const updatedMessages = [...messages, newInput];
+        setMessages(updatedMessages);
+        localStorage.setItem("messages", JSON.stringify(updatedMessages));
       } else {
-        // will run if browser AI is unavailable
+        // will run if browser AI or detector is unavailable"
+        setTranslatedText("");
+        const newMessage = {
+          text: inputText,
+          language: "AI not supported. Could not detect language.",
+          confidence: null,
+        };
 
-        setMessages((prev) => [
-          ...prev,
-          {
-            text: inputText,
-            language: "AI not supported. Could not detect language.",
-            confidence: null,
-          },
-        ]);
+        const updatedMessages = [...messages, newMessage];
+        setMessages(updatedMessages);
+        localStorage.setItem("messages", JSON.stringify(updatedMessages));
       }
     } catch (error) {
       console.error("Error detecting language.", error);
@@ -132,23 +134,36 @@ export default function InputBox({ setMessages, setDetectedLanguage }) {
     }
   };
 
+  //handles form submission
+  const onSubmit = (e) => {
+    e.preventDefault();
+    detectLanguage();
+  };
+
   return (
     <form
-      onSubmit={detectLanguage}
-      className="w-full max-w-[90%] flex my-2 fixed bottom-0 items-center gap-2"
+      onSubmit={onSubmit}
+      className="w-full max-w-[95%] mx-auto shrink-0 flex  my-2 items-center gap-2"
     >
       <textarea
         value={inputText}
         onChange={handleInputChange}
-        className="w-full border-2 border-[var(--color-text-grey)] rounded-xl bg-transparent text-sm p-2  rounded-md "
-        placeholder="Let's go..."
+        className="w-full  resize-none border-2 border-[var(--color-text-grey)] rounded-xl bg-transparent text-sm p-2 rounded-md "
+        placeholder="Your text goes here..."
         rows={3}
+        aria-label="input text here"
       ></textarea>
       <button
         type="submit"
-        className="w-fit h-fit p-2 border bg-[var(--color-main)] hover:bg-[var(--color-lighter-main)] rounded-[50%] p-2"
+        aria-label="send button"
+        className="w-fit h-fit border bg-[var(--color-main)] hover:bg-[var(--color-lighter-main)] rounded-[50%] p-2"
       >
-        <Image src={send} alt="send icon" className="w-5 h-5"></Image>
+        <Image
+          src={send}
+          alt="send icon"
+          aria-label="send icon"
+          className="w-5 h-5"
+        ></Image>
       </button>
     </form>
   );

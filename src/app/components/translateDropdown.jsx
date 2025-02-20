@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { toast } from "react-hot-toast";
 
 const targetLanguages = [
@@ -11,20 +11,25 @@ const targetLanguages = [
   { code: "ru", name: "Russian" },
 ];
 
-export default function Translate({ inputText, detectedLanguage }) {
+export default function Translate({
+  inputText,
+  detectedLanguage,
+  translatedText,
+  setTranslatedText,
+}) {
   const [language, setLanguage] = useState("");
   const [isLoading, setisLoading] = useState(false);
   const [translator, setTranslator] = useState(null);
-  const [translatedText, setTranslatedText] = useState("");
   const [translatedLanguage, setTranslatedLanguage] = useState("");
 
-  // function to change translation language choice
+  // function to handle change of translation language
   const handleLanguageSelection = (e) => {
     setLanguage(e.target.value);
   };
 
   //function to translate inputText
   const handleTranslation = async () => {
+    //runs if theres no input
     if (!inputText.trim()) {
       toast.error("No text to translate. Please input some text!", {
         duration: 3000,
@@ -32,14 +37,19 @@ export default function Translate({ inputText, detectedLanguage }) {
       return;
     }
 
+    //runs if language detection fails
     if (!detectedLanguage) {
       toast.error("No source language detected.");
       return;
     }
+
+    //runs if no language is picked
     if (!language) {
       toast.error("No target language detected. Please pick a language.");
       return;
     }
+
+    //runs if source and target are equal
     if (detectedLanguage === language) {
       toast.error(
         "Source and target language cannot be the same. Please pick another language."
@@ -66,9 +76,15 @@ export default function Translate({ inputText, detectedLanguage }) {
           targetLanguage: language,
         });
       } else if (pairAvailable === "after-download") {
-        const loadingToast = toast.loading("Downloading language pair", {
-          duration: Infinity,
-        });
+        console.log(
+          "The language pair you requested is not available, we need to download it."
+        );
+        const loadingToast = toast.loading(
+          "Downloading language pair. This might take a while...",
+          {
+            duration: Infinity,
+          }
+        );
 
         try {
           translator = await self.ai.translator.create({
@@ -112,6 +128,7 @@ export default function Translate({ inputText, detectedLanguage }) {
       <section className="flex flex-col gap-2">
         <select
           onChange={handleLanguageSelection}
+          aria-label="languages dropdown"
           className="text-[0.8rem] w-full bg-[var(--dark)] cursor-pointer border-2 border-[var(--color-main)] p-1 rounded-lg bg-transparent"
           defaultValue="Translate Text"
         >
@@ -119,7 +136,13 @@ export default function Translate({ inputText, detectedLanguage }) {
             Pick a language
           </option>
           {targetLanguages.map((lang) => (
-            <option className="text-black" key={lang.code} value={lang.code}>
+            <option
+              onKeyDown={(e) => e.key === "Enter" && handleLanguageSelection}
+              aria-label={lang.name}
+              className="text-black"
+              key={lang.code}
+              value={lang.code}
+            >
               {lang.name}
             </option>
           ))}
@@ -127,6 +150,7 @@ export default function Translate({ inputText, detectedLanguage }) {
 
         <button
           onClick={handleTranslation}
+          aria-label="translate text button"
           className="text-[0.8rem] w-full whitespace-nowrap cursor-pointer text-center border-2 border-[var(--color-main)] bg-[var(--color-main)] p-1 rounded-lg hover:bg-[var(--color-lighter-main)]"
         >
           Translate text ({language})
@@ -147,7 +171,7 @@ export default function Translate({ inputText, detectedLanguage }) {
           <section className="text-[0.8rem] border border-[var(--color-main)] p-2 flex flex-col gap-1 rounded-lg">
             <button
               onClick={handleClose}
-              className="text-[10px] font-bold text-right hover:underline text-[var(--color-text-grey)]"
+              className="text-[10px] font-bold text-right hover:underline hover:text-[var(--light)] text-[var(--color-text-grey)]"
             >
               Close Translation
             </button>

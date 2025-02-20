@@ -7,11 +7,13 @@ export default function ChatBox({
   messages,
   clearMessages,
   inputText,
+  translatedText,
   detectedLanguage,
+  setTranslatedText,
 }) {
   return (
-    <section className="w-full h-auto my-auto p-2 my-2 border border-4 border-color">
-      <section className="flex items-end m-1">
+    <section className="flex flex-col w-full flex-grow min-h-0 p-2 overflow-y-auto border border-4 border-color">
+      <section className="flex items-end mb-2 mx-1">
         <ClearChat messages={messages} clearMessages={clearMessages} />
       </section>
       {messages.map((message, index) => (
@@ -32,7 +34,12 @@ export default function ChatBox({
         </section>
       ))}
       <section className="flex gap-3 ">
-        <Translate inputText={inputText} detectedLanguage={detectedLanguage} />
+        <Translate
+          inputText={inputText}
+          detectedLanguage={detectedLanguage}
+          translatedText={translatedText}
+          setTranslatedText={setTranslatedText}
+        />
       </section>
     </section>
   );
