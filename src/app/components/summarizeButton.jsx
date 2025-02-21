@@ -19,7 +19,7 @@ export default function Summarize({ inputText, detectedLanguage }) {
 
     try {
       const options = {
-        sharedContext: "This is a long text that provides key-points and a conclusion for a summary.",
+        sharedContext: "Provide a concise summary with key points in fewer words than the original text.",
         type: "key-points",
         format: "markdown",
         length: "medium",
@@ -104,8 +104,8 @@ export default function Summarize({ inputText, detectedLanguage }) {
       {showSummary && (
         <section className="w-full min-w-full">
           <p className="text-[10px] font-bold">Summary</p>
-          <section className="text-[0.7rem] border border-[var(--color-main)] p-2 flex flex-col gap-1 rounded-lg">
-            <button onClick={() => setSummaryText("")} className="text-[0.5rem] font-bold ms-auto hover:underline hover:text-[var(--light)] text-[var(--color-text-grey)]">
+          <section className="text-[0.8rem] border-2 border-[var(--color-purple)] p-2 flex flex-col gap-1 rounded-lg">
+            <button onClick={() => setSummaryText("")} className="text-[0.55rem] font-bold ms-auto hover:underline hover:text-[var(--light)] text-[var(--color-text-grey)]">
               Close       
             </button>
             {summaryText !== "" ? summaryText : <p className="text-red-500 text-[0.5rem]">Sorry, your summary is not available.</p>}

@@ -18,7 +18,7 @@ export default function ChatBox({
       </section>
       {messages.map((message, index) => (
         <section key={index} className="mb-3">
-          <section className="text-[0.8rem] rounded-xl border border-[var(--color-main)] mb-1 w-full max-w-fit flex flex-col gap-2 p-2">
+          <section className="text-[0.8rem] rounded-xl border-2 border-[var(--color-main)] mb-1 w-full max-w-fit flex flex-col gap-2 p-2">
             {message.text}
 
             {message.text.trim().length > 150 &&

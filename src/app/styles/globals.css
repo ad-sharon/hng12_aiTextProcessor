@@ -8,6 +8,7 @@
   --color-main: rgba(222, 28, 110);
   --color-lighter-main: rgb(255, 33, 125);
   --color-text-grey: #777575;
+  --color-purple: rgba(119, 8, 119, 1);
   --gradient-main: linear-gradient(
     180deg,
     rgba(119, 8, 119, 1) 0%,

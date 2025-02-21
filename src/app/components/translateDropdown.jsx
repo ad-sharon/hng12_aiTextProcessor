@@ -169,10 +169,10 @@ export default function Translate({
           <p className="text-[0.6rem] font-bold">
             Translation - {translatedLanguage}
           </p>
-          <section className="text-[0.7rem] border border-[var(--color-main)] p-2 flex flex-col gap-1 rounded-lg">
+          <section className="text-[0.8rem] border-2 p-2 flex flex-col gap-1 rounded-lg">
             <button
               onClick={handleClose}
-              className="text-[0.5rem] font-bold ms-auto hover:underline hover:text-[var(--light)] text-[var(--color-text-grey)]"
+              className="text-[0.55rem] font-bold ms-auto hover:underline hover:text-[var(--light)] text-[var(--color-text-grey)]"
             >
               Close
             </button>
