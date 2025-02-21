@@ -19,7 +19,7 @@ export default function Summarize({ inputText, detectedLanguage }) {
 
     try {
       const options = {
-        sharedContext: "This is a scientific article",
+        sharedContext: "This is a long text that provides key-points and a conclusion for a summary.",
         type: "key-points",
         format: "markdown",
         length: "medium",
@@ -32,7 +32,7 @@ export default function Summarize({ inputText, detectedLanguage }) {
         setIsLoading(false)
         setShowSummary(false)
           toast.error(
-          "Sorry. You don't have the sufficient requirements needed to summarize text!"
+          "Sorry. You don't have the device requirements needed to summarize text!"
         );
         return;
       }
@@ -41,19 +41,34 @@ export default function Summarize({ inputText, detectedLanguage }) {
       if (canSummarize === "readily") {
         summarizer = await self.ai.summarizer.create(options);
       } else if (canSummarize === "after-download") {
+        const loadingToast = toast.loading(
+          "Downloading the summarizer model. This might take a while...",
+          {
+            duration: Infinity,
+          }
+        );
+
+        try{
         summarizer = await self.ai.summarizer.create({
         monitor(m){
           m.addEventListener("downloadprogress", (e) => {
           console.log(
-            `Downloading AI summarizer Model: ${e.loaded} / ${e.total} bytes.`
-          )
+            `Downloading AI summarizer Model: ${e.loaded} / ${e.total} bytes.`);
           });
         }        
         });
         await summarizer.ready;
+        toast.dismiss(loadingToast);
+        toast.success("Download done!");
+        } catch (error) {
+          toast.dismiss(loadingToast);
+        console.error("Error downloading AI summarizer:", error);
+        toast.error("An error occurred while downloading the model.");
+        return;
+        }
       }
 
-      toast.success("Summarizer initialized.");
+      setIsLoading(true);
       setSummarizer(summarizer);
       const result = await summarizer.summarize(inputText, {
         context: "Just make it short.",
@@ -64,7 +79,7 @@ export default function Summarize({ inputText, detectedLanguage }) {
       setIsLoading(false);
     } catch (error) {
       console.error("Error summarizing text:", error);
-      toast.error("An error occurred while summariing.");
+      toast.error("Failed to sumarize. Try again.");
     }
   };
 

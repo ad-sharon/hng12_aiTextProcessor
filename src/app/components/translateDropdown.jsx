@@ -101,8 +101,9 @@ export default function Translate({
           toast.success("Download done!");
         } catch (error) {
           toast.dismiss(loadingToast);
+          console.error("Error downloading model:", error)
           toast.error("Failed to download language pair.");
-          return;
+ 
         }
       }
 
