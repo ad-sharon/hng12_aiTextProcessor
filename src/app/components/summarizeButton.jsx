@@ -41,13 +41,15 @@ export default function Summarize({ inputText, detectedLanguage }) {
       if (canSummarize === "readily") {
         summarizer = await self.ai.summarizer.create(options);
       } else if (canSummarize === "after-download") {
-        summarizer = await self.ai.summarizer.create(options);
-        summarizer.addEventListener("downloadprogress", (e) => {
+        summarizer = await self.ai.summarizer.create({
+        monitor(m){
+          m.addEventListener("downloadprogress", (e) => {
           console.log(
             `Downloading AI summarizer Model: ${e.loaded} / ${e.total} bytes.`
-          );
+          )
+          });
+        }        
         });
-
         await summarizer.ready;
       }
 
