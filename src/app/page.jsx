@@ -66,6 +66,7 @@ export default function Home() {
         setDetectedLanguage={setDetectedLanguage}
         setTranslatedText={setTranslatedText}
       />
+      <p className="text-[0.8rem] font-bold text-[var(--color-lighter-main)] my-1 text-center">To use the summarize feature, input text above 150 characters</p>
     </section>
   );
 }

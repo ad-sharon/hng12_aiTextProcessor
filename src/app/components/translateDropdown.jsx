@@ -128,8 +128,8 @@ export default function Translate({
       <section className="flex flex-col gap-2">
         <select
           onChange={handleLanguageSelection}
-          aria-label="languages dropdown"
-          className="text-[0.7rem] w-full bg-[var(--dark)] cursor-pointer border-2 border-[var(--color-main)] p-1 rounded-lg bg-transparent"
+          aria-label="languages translation dropdown"
+          className="text-[0.8rem] w-full bg-[var(--dark)] cursor-pointer border-2 border-[var(--color-main)] p-1 rounded-lg bg-transparent"
           defaultValue="Translate Text"
         >
           <option className="text-black" hidden value="Translate Text">
@@ -151,7 +151,7 @@ export default function Translate({
         <button
           onClick={handleTranslation}
           aria-label="translate text button"
-          className="text-[0.7rem] w-full whitespace-nowrap cursor-pointer text-center border-2 border-[var(--color-main)] bg-[var(--color-main)] p-1 rounded-lg hover:bg-[var(--color-lighter-main)]"
+          className="text-[0.8rem] w-full whitespace-nowrap cursor-pointer text-center border-2 border-[var(--color-main)] bg-[var(--color-main)] p-1 rounded-lg hover:bg-[var(--color-lighter-main)]"
         >
           Translate text ({language})
         </button>

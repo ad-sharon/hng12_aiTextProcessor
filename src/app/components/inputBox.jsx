@@ -160,7 +160,7 @@ export default function InputBox({
   return (
     <form
       onSubmit={onSubmit}
-      className="w-full max-w-[95%] mx-auto shrink-0 flex  my-2 items-center gap-2"
+      className="w-full max-w-[95%] mx-auto shrink-0 flex mt-2 items-center gap-2"
     >
       <textarea
         value={inputText}
@@ -179,7 +179,7 @@ export default function InputBox({
           src={send}
           alt="send icon"
           aria-label="send icon"
-          className="w-5 h-5"
+          className="w-7 h-7"
         ></Image>
       </button>
     </form>

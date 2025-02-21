@@ -41,9 +41,12 @@ export default function RootLayout({ children }) {
             priority={true}
             className="w-fit h-10 cursor-pointer"
           ></Image>
-          <h4 className="text-[0.6rem] w-fit ">
+          <section className="flex itens-center">
+         
+          <h4 className="text-[0.8rem] w-fit text-center ">
             Summarize | Translate | Detect Languages.
           </h4>
+          </section>
 
           {/* <a
             className="text-[0.7rem] hover:border-b hover:border-[var(--color-main)] hover:shadow-xl transition-all ease-in-out duration-300"

@@ -84,25 +84,20 @@ export default function Summarize({ inputText, detectedLanguage }) {
         </p>
       )}
       
-      {showSummary && summaryText !== "" ? (
+      {showSummary && (
         <section className="w-full min-w-full">
           <p className="text-[10px] font-bold">Summary</p>
           <section className="text-[0.7rem] border border-[var(--color-main)] p-2 flex flex-col gap-1 rounded-lg">
             <button onClick={() => setSummaryText("")} className="text-[0.5rem] font-bold ms-auto hover:underline hover:text-[var(--light)] text-[var(--color-text-grey)]">
-              Close
+              Close       
             </button>
-            {summaryText}
+            {summaryText !== "" ? summaryText : <p className="text-red-500 text-[0.5rem]">Sorry, your summary is not available.</p>}
             <p className="text-[9px] ms-auto font-bold text-center text-[var(--light)]">
               Summary Character Count = {`${summaryText.trim().length}`}
             </p>
           </section>
         </section>
-      ) : (
-        <p className="text-red-500 text-[0.5rem]">
-          Sorry your summary is not available.
-        </p>
-      )}
-      
+      )}      
     </>
   );
 }
