@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Head from "next/head";
 import logo from "../../public/logo.png";
 import "./styles/globals.css";
 import { Toaster } from "react-hot-toast";
@@ -15,8 +14,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <Head>
-        <meta
+      <head>
+      <meta
           httpEquiv="origin-trial"
           content="An92Cn+zF0LljXPrwxnvojQqFCfTImoLdAJ4ilnN1TD7F9eUcC8YSBGcpOR6gpA4H2SpJVGUW21AMjre37iAyQIAAAB2eyJvcmlnaW4iOiJodHRwczovL2huZzEyLXRleHRiZW5kZXIudmVyY2VsLmFwcDo0NDMiLCJmZWF0dXJlIjoiVHJhbnNsYXRpb25BUEkiLCJleHBpcnkiOjE3NTMxNDI0MDAsImlzU3ViZG9tYWluIjp0cnVlfQ=="
         />
@@ -28,7 +27,7 @@ export default function RootLayout({ children }) {
           httpEquiv="origin-trial"
           content="AqGYginKlliC4fMuIKFPxeIxh/He+Xp3VSBZMRRgBGH5SxifvEhpL3XG8RQooGnaobL4RvJJU+G20q4sUPvW7gQAAAB6eyJvcmlnaW4iOiJodHRwczovL2huZzEyLXRleHRiZW5kZXIudmVyY2VsLmFwcDo0NDMiLCJmZWF0dXJlIjoiQUlTdW1tYXJpemF0aW9uQVBJIiwiZXhwaXJ5IjoxNzUzMTQyNDAwLCJpc1N1YmRvbWFpbiI6dHJ1ZX0="
         />
-      </Head>
+      </head>      
       <body
         className={`${inter.className} h-screen max-h-screen flex flex-col`}
       >
