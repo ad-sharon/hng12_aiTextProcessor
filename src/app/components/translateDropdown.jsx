@@ -65,7 +65,7 @@ export default function Translate({
       );
 
       if (pairAvailable === "no") {
-        toast.error("Sorry. Translation is not supported.");
+        toast.error("Sorry. Translation is not supported or your limit has been reached.");
         return;
       }
 
